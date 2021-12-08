@@ -213,6 +213,7 @@ public class EditPollController {
 	}
 
 
+	/** wtf does this do */
 	public void refresh() {
 		// TODO Auto-generated method stub
 		
