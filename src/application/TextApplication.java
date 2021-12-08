@@ -1,6 +1,8 @@
 package application;
 
 import java.util.Scanner;
+
+import javafx.scene.paint.Color;
 import model.*;
 
 /**
@@ -153,8 +155,9 @@ public class TextApplication {
         if (randomOrNot.equalsIgnoreCase("Yes")) {
 
             // create a new Factory with the provided info
-        	Factory fact = Factory.getInstance();
-//            Factory fact = new Factory(seatsAvailableInElection);
+        	Color[] colours = new Color[0];
+            Factory fact = Factory.getInstance();
+            fact.setPartyIdentifiers(partiesNameArray, colours);
             polls = fact.createRandomPollList(numberOfPollsToTrack);
 
             // retrieve the names of parties from the random factory
