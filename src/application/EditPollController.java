@@ -84,9 +84,11 @@ public class EditPollController {
     private BorderPane wrapper;
 
     /** instance variables that are required throughout multiple methods */
-    private Factory fact = Factory.getInstance();
-    private PollList samplePollList = fact.createEmptyPolls();
-    private Poll[] pollArray = samplePollList.toArray();
+    private PollList polls;
+    
+//    private Factory fact = Factory.getInstance();
+//    private PollList samplePollList = fact.createEmptyPolls();
+    private Poll[] pollArray = polls.toArray();
     
     private String pollSelectedToChange;
     private String partySelectedToChange;
@@ -156,7 +158,7 @@ public class EditPollController {
     void initialize() {
     	
     	// sets the Label to display the accurate number of seats that are available in the election
-    	Integer seatsAvailable = fact.DEFAULT_NUMBER_OF_SEATS;
+    	Integer seatsAvailable = polls.getNumOfSeats();
     	numberOfSeats.setText("/ " + seatsAvailable.toString());
     	
     	// displaying the poll names in dropdown to select poll
@@ -199,6 +201,22 @@ public class EditPollController {
 			}
     	});
     }
+
+
+    /** setPolls() method
+     *  Called by PollTrackerApp to provide the controller with list of polls
+     *  to edit in the view
+     *  
+     *  @param the PollList which will be edited provided by PollTrackerApp */
+	public void setPolls(PollList polls) {
+		this.polls = polls;
+	}
+
+
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
 
