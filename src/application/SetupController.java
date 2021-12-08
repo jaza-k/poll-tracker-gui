@@ -28,6 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Factory;
+import application.PollTrackerApp;
 
 public class SetupController {
 
@@ -65,6 +66,9 @@ public class SetupController {
     @FXML
     private VBox textFieldBox;
 
+    @FXML
+    private PollTrackerApp app;
+    
     /**
      * An event listener for the <code>resetButton</code>.
      * Clears the text fields for <code>numSeatsTextField</code>,
@@ -212,6 +216,7 @@ public class SetupController {
      */
     @FXML
     void submitPartyInfo(ActionEvent event) {
+//    	app.pollView();
     	int numOfParties = textFields.length;
     	
     	String[] partyNames = new String[numOfParties];
@@ -229,6 +234,15 @@ public class SetupController {
     	
     	// Prints out the Factory to the console when submit
     	System.out.println(Factory.getInstance().toString());
+    }
+   
+    
+    /** Method that initializes an instance variable of type PollTrackerApp
+     * 
+     *  @param instance variable for PollTrackerApp that gets initialized
+     */
+    public void linkWithApplication(PollTrackerApp app) {
+    	app = new PollTrackerApp();
     }
 
 }
