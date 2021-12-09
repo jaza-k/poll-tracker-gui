@@ -40,12 +40,12 @@ public class VisualizePollController {
      */
     @FXML
     void initialize() {
-    	//create the singleton instance of Factory
-    	Factory fact = Factory.getInstance();
-    	polls = fact.createRandomPollList();
     	//set the default selected option to "Aggregate Poll" and Display the Aggregate Poll on the PieCharts by default using the chartCreationHelper method.
     	vizChoice.setValue("Aggregate Poll");
-    	Poll aggregate = polls.getAggregatePoll(fact.getPartyNames());
+    	String[] names = new String[polls.toArray()[0].getNumberOfParties()];
+    	for(int i = 0; i < polls.toArray()[0].getNumberOfParties(); )
+    		names[i] = polls.toArray()[0].getParties()[i].getName();
+    	Poll aggregate = polls.getAggregatePoll(names);
 		chartCreationHelper(aggregate);
 		//Create the String array of Poll names to be options in the choice box, with the first being the Aggregate Poll
     	String[] visualizationOptions = new String[polls.toArray().length + 1];
@@ -107,5 +107,9 @@ public class VisualizePollController {
 			seatData[i].getNode().setStyle("-fx-pie-color: " + colorToUse + ";");
 			votesData[i].getNode().setStyle("-fx-pie-color: " + colorToUse + ";");
 		}
-}
+    }
+    
+    public void setPolls(PollList polls) {
+    	this.polls = polls;
+    }
 }
