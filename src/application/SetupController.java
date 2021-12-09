@@ -65,9 +65,6 @@ public class SetupController {
 
     @FXML
     private VBox textFieldBox;
-
-    @FXML
-    private PollTrackerApp app;
     
     /**
      * An event listener for the <code>resetButton</code>.
@@ -232,8 +229,14 @@ public class SetupController {
     	// Stores the names and colours of the parties from the input
     	Factory.getInstance().setPartyIdentifiers(partyNames, partyColours);
     	
+    	/*
     	// Prints out the Factory to the console when submit
     	System.out.println(Factory.getInstance().toString());
+    	*/
+    	
+    	PollTrackerApp app = null;
+    	
+    	linkWithApplication(app);
     }
    
     
@@ -243,6 +246,8 @@ public class SetupController {
      */
     public void linkWithApplication(PollTrackerApp app) {
     	app = new PollTrackerApp();
+    	
+    	app.pollView();
     }
 
 }
