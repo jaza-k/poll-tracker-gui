@@ -229,14 +229,13 @@ public class SetupController {
     	// Stores the names and colours of the parties from the input
     	Factory.getInstance().setPartyIdentifiers(partyNames, partyColours);
     	
-    	/*
+    	
     	// Prints out the Factory to the console when submit
     	System.out.println(Factory.getInstance().toString());
-    	*/
     	
-    	PollTrackerApp app = null;
+    	PollTrackerApp app = new PollTrackerApp();
     	
-    	linkWithApplication(app);
+    	app.pollView();
     }
    
     
@@ -246,8 +245,6 @@ public class SetupController {
      */
     public void linkWithApplication(PollTrackerApp app) {
     	app = new PollTrackerApp();
-    	
-    	app.pollView();
     }
 
 }
