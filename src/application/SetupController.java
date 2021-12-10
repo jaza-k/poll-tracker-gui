@@ -38,7 +38,7 @@ public class SetupController {
 	// when the scene is switched.
 	private static TextField[] textFields;
 	private static ColorPicker[] colourPickers;
-	
+	PollTrackerApp app;
     @FXML
     private TextField numPartiesTextField;
 
@@ -228,13 +228,13 @@ public class SetupController {
     	
     	// Stores the names and colours of the parties from the input
     	Factory.getInstance().setPartyIdentifiers(partyNames, partyColours);
-    	
-    	
+    	Factory fact = Factory.getInstance();
     	// Prints out the Factory to the console when submit
     	System.out.println(Factory.getInstance().toString());
     	
-    	PollTrackerApp app = new PollTrackerApp();
-    	
+    	//set polls to the updated instance of factory
+    	app.polls = fact.createEmptyPolls();
+    	    	
     	app.pollView();
     }
    
@@ -244,7 +244,7 @@ public class SetupController {
      *  @param instance variable for PollTrackerApp that gets initialized
      */
     public void linkWithApplication(PollTrackerApp app) {
-    	app = new PollTrackerApp();
+    	this.app = app;
     }
 
 }
