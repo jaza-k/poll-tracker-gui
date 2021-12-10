@@ -1,17 +1,7 @@
 package application;
 
-/**
- * Graphical user interface (GUI) for setting up the
- * Poll Tracker Application.
- * The user inputs data, number of seats, number of parties,
- * number of polls, the parties' names, and their colour, which
- * can be used to visualize polling data.
- * 
- * @author Joshua Lee
- */
 
 import java.io.FileInputStream;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +20,15 @@ import javafx.stage.Stage;
 import model.Factory;
 import application.PollTrackerApp;
 
+/**
+ * Graphical user interface (GUI) for setting up the
+ * Poll Tracker Application.
+ * The user inputs data, number of seats, number of parties,
+ * number of polls, the parties' names, and their colour, which
+ * can be used to visualize polling data.
+ * 
+ * @author Joshua Lee
+ */
 public class SetupController {
 
 	// Arrays that store the text fields and colour pickers
@@ -38,7 +37,7 @@ public class SetupController {
 	// when the scene is switched.
 	private static TextField[] textFields;
 	private static ColorPicker[] colourPickers;
-	PollTrackerApp app;
+	static PollTrackerApp app;
     @FXML
     private TextField numPartiesTextField;
 
@@ -232,6 +231,8 @@ public class SetupController {
     	// Prints out the Factory to the console when submit
     	System.out.println(Factory.getInstance().toString());
     	
+    	System.out.println(app);
+    	
     	//set polls to the updated instance of factory
     	app.polls = fact.createEmptyPolls();
     	    	
@@ -244,7 +245,8 @@ public class SetupController {
      *  @param instance variable for PollTrackerApp that gets initialized
      */
     public void linkWithApplication(PollTrackerApp app) {
-    	this.app = app;
+    	System.out.println(app);
+    	SetupController.app = app;
     }
 
 }
