@@ -8,6 +8,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
+
+
+
+
+
+
 import model.Factory;
 import model.PollList;
 import javafx.scene.Parent;
@@ -20,13 +26,15 @@ import application.*;
 
 public class PollTrackerApp extends Application {
 	Stage primaryStage;
-	PollList polls;
+	static PollList polls;
 	
 	
 	private void setupView() {
 		FXMLLoader loader = new FXMLLoader();
 		Scene scene;
 		try {
+			System.out.println("Polls at the beginning of the entire app: " + polls);
+			System.out.println("Currently on the first view");
 			Parent setupView = (Parent) loader.load(new FileInputStream("src/view/SetupView.fxml"));
 			SetupController setupController = loader.getController();
 			setupController.linkWithApplication(this);
@@ -39,23 +47,27 @@ public class PollTrackerApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	void pollView() {
 		FXMLLoader loader = new FXMLLoader();
 		Scene scene;
-		polls = Factory.getInstance().createEmptyPolls();
+//		polls = Factory.getInstance().createEmptyPolls();
 
 		try {
+			System.out.println("About to load the EditPollController class\n");
 			loader = new FXMLLoader();
 			Tab editView = new Tab("Edit", loader.load(new FileInputStream("src/view/EditPollView.fxml")));
 			EditPollController editPollController = loader.getController();
-			editPollController.setPolls(polls);
-			editPollController.refresh();
+			//editPollController.setPolls(polls);
+			editPollController.refresh(primaryStage);
 			loader = new FXMLLoader();
+			System.out.println("hit here");
 			Tab visualizeView = new Tab("Visualize", loader.load(new FileInputStream("src/view/VisualizePollView.fxml")));
 			VisualizePollController visualizePollController = loader.getController();
-			visualizePollController.setPolls(polls);
+			//visualizePollController.setPolls(polls);
+			System.out.println("REACHED");
 			TabPane root = new TabPane(editView, visualizeView);
+			System.out.println("REACHED1");
 			scene = new Scene(root, 800,500);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -66,6 +78,10 @@ public class PollTrackerApp extends Application {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static PollList getthepoll() {
+		return polls;
 	}
 	
 	@Override

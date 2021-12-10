@@ -16,6 +16,8 @@ import model.*;
 
 public class EditPollController {
 
+	public static PollTrackerApp app;
+
 	/** instance variables with ID's for all elements */
     @FXML
     private Button clearButton;
@@ -87,8 +89,8 @@ public class EditPollController {
     private PollList polls;
     
 //    private Factory fact = Factory.getInstance();
-//    private PollList samplePollList = fact.createEmptyPolls();
-    private Poll[] pollArray = polls.toArray();
+//    private PollList polls = fact.createEmptyPolls();
+//    private Poll[] pollArray = polls.toArray();
     
     private String pollSelectedToChange;
     private String partySelectedToChange;
@@ -112,6 +114,7 @@ public class EditPollController {
      * inside the poll and party specified by user */
     @FXML
     void updateParty(ActionEvent event) {
+    	Poll[] pollArray = polls.toArray();
     	pollSelectedToChange = pollDropdown.getValue();
     	partySelectedToChange = partyDropdown.getValue();
     	
@@ -138,6 +141,7 @@ public class EditPollController {
      *  Updates the name of the poll the user specified through the ChoiceBox */
     @FXML
     void updatePollName(ActionEvent event) {
+        Poll[] pollArray = polls.toArray();
     	pollSelectedToChange = pollDropdown.getValue();
     	String updatedPollName = pollNameTextfield.getText();
  
@@ -151,11 +155,20 @@ public class EditPollController {
     	pollDropdown.setValue(updatedPollName);
     }
     
+    // exists only so app is accessible
+    public void testMethod(PollTrackerApp app) {
+    	EditPollController.app = app;
+    }
     
     /** initialize() method 
      *  Stores code that will be run on program start up */
     @FXML
     void initialize() {
+    	this.polls = setPolls(app.polls);
+    	
+    	Poll[] pollArray = polls.toArray();
+
+    	System.out.println("Verifying what polls is now:\n " + this.polls);
     	
     	// sets the Label to display the accurate number of seats that are available in the election
     	Integer seatsAvailable = polls.getNumOfSeats();
@@ -207,10 +220,20 @@ public class EditPollController {
      *  Called by PollTrackerApp to provide the controller with list of polls
      *  to edit in the view
      *  
-     *  @param the PollList which will be edited provided by PollTrackerApp */
-	public void setPolls(PollList polls) {
+     *  @param the PollList which will be edited provided by PollTrackerApp 
+     * @return */
+	public PollList setPolls(PollList polls) {
+		System.out.println("Just reached EditPollController. On setPolls() method right now\n");
+		System.out.println("This is polls instance variable in EditPollController BEFORE setting it: " + this.polls);
+		System.out.println("\nThis is the polls passed in the argument for setPolls() (coming from app):\n" + polls);
+		
+		System.out.println("**********************");
+		
 		this.polls = polls;
+		System.out.println("Just set polls\n");
+		return this.polls;
 	}
+	
 
 
 	/** wtf does this do */

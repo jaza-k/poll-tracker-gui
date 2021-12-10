@@ -169,6 +169,8 @@ public class SetupController {
     	Factory.getInstance().setNumOfSeats(numOfSeats);
     	Factory.getInstance().setNumOfPolls(numOfPolls);
     	
+    	System.out.println("Just pressed submit on the first view. Polls is still: " + app.polls);
+    	
     	// Creates a new scene for the input of party names and their colours
     	try {
     		BorderPane partyView = new BorderPane();
@@ -176,7 +178,7 @@ public class SetupController {
     		// Loads FXML file for the new scene
     		FXMLLoader loader = new FXMLLoader();
     		partyView = (BorderPane)loader.load(new FileInputStream("src/view/PartyNamesView.fxml"));
-    		
+    		System.out.println("On the next view. Waiting for party info to be submitted\n");
     		// Initializes the scene
             vBoxSetup();
     		addElements(numOfParties);
@@ -189,7 +191,6 @@ public class SetupController {
     		
     		// gets the window that the event is in
     		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		
     		window.setScene(partyScene);
     		window.show();
     		
@@ -212,7 +213,8 @@ public class SetupController {
      */
     @FXML
     void submitPartyInfo(ActionEvent event) {
-//    	app.pollView();
+    	System.out.println("*****************");
+    	System.out.println("Just pressed Submit party info button. This is factory:\n ");
     	int numOfParties = textFields.length;
     	
     	String[] partyNames = new String[numOfParties];
@@ -231,9 +233,11 @@ public class SetupController {
     	// Prints out the Factory to the console when submit
     	System.out.println(Factory.getInstance().toString());
     	    	
-    	//set polls to the updated instance of factory
+    	// set polls to the updated instance of factory
     	app.polls = fact.createEmptyPolls();
-    	    	
+    	System.out.println("And this is what polls is now:\n\n" + app.polls);
+    	System.out.println("Moving on to pollView() back in PollTrackerApp class\n");
+    	System.out.println("****************");
     	app.pollView();
     }
    
