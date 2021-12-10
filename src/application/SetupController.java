@@ -230,9 +230,7 @@ public class SetupController {
     	Factory fact = Factory.getInstance();
     	// Prints out the Factory to the console when submit
     	System.out.println(Factory.getInstance().toString());
-    	
-    	System.out.println(app);
-    	
+    	    	
     	//set polls to the updated instance of factory
     	app.polls = fact.createEmptyPolls();
     	    	
@@ -245,7 +243,6 @@ public class SetupController {
      *  @param instance variable for PollTrackerApp that gets initialized
      */
     public void linkWithApplication(PollTrackerApp app) {
-    	System.out.println(app);
     	SetupController.app = app;
     }
 
