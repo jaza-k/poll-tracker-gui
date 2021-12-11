@@ -144,6 +144,7 @@ public class PollList {
 		if (partyOccurance != 0) {
 			avgParty.setProjectedNumberOfSeats(avgSeats / partyOccurance);
 			avgParty.setProjectedPercentageOfVotes(avgVotes / partyOccurance);
+			avgParty.setColour(polls[0].getParty(name).getPartyColour());
 		}
 		
 		return avgParty;
