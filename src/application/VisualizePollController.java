@@ -39,13 +39,29 @@ public class VisualizePollController {
      * Poll by default. If a different Poll is selected, the PieCharts will display data for that poll
      */
     @FXML
-    void initialize() {
+    void start() {
+    	System.out.println("inside VPC");
+    	
     	//set the default selected option to "Aggregate Poll" and Display the Aggregate Poll on the PieCharts by default using the chartCreationHelper method.
     	vizChoice.setValue("Aggregate Poll");
+    	
+    	System.out.println(polls.toString());
+    	
     	String[] names = new String[polls.toArray()[0].getNumberOfParties()];
-    	for(int i = 0; i < polls.toArray()[0].getNumberOfParties(); )
+    	    	
+    	for(int i = 0; i < polls.toArray()[0].getNumberOfParties(); i++)
     		names[i] = polls.toArray()[0].getParties()[i].getName();
+    	
+    	System.out.println("----------------");
+    	System.out.println("names");
+    	for (String n : names) System.out.println(n);
+    	System.out.println(polls.toString());
+    	    	
     	Poll aggregate = polls.getAggregatePoll(names);
+    	
+    	
+    	System.out.println(aggregate.toString());
+    	
 		chartCreationHelper(aggregate);
 		//Create the String array of Poll names to be options in the choice box, with the first being the Aggregate Poll
     	String[] visualizationOptions = new String[polls.toArray().length + 1];
@@ -66,7 +82,7 @@ public class VisualizePollController {
     				Poll pollToChart = polls.toArray()[index - 1];
     				chartCreationHelper(pollToChart);
     			}
-    			else if(index == 0) 
+    			else if(index == 0);
     				chartCreationHelper(aggregate);
     		}
     		}
@@ -99,6 +115,10 @@ public class VisualizePollController {
 		seatsChart.setLegendVisible(false);
 		votesChart.setLegendVisible(false);
 		//Set the colour of the PieChart data node to the required party colour
+		
+		System.out.println("in chart helper");
+    	System.out.println(aPoll.toString());
+		
 		for(int i = 0; i < seatData.length; i++) {
 			//get the party colour and change it to HTML form
 			String colorToUse = aPoll.getParties()[i].getPartyColour().toString();

@@ -38,7 +38,7 @@ public class PollTrackerApp extends Application {
 			Parent setupView = (Parent) loader.load(new FileInputStream("src/view/SetupView.fxml"));
 			SetupController setupController = loader.getController();
 			setupController.linkWithApplication(this);
-			scene = new Scene(setupView,300,300);
+			scene = new Scene(setupView,400,300);
 			primaryStage.setScene(scene);
 			primaryStage.show();		
 		} catch (FileNotFoundException e) {
@@ -59,12 +59,18 @@ public class PollTrackerApp extends Application {
 			Tab editView = new Tab("Edit", loader.load(new FileInputStream("src/view/EditPollView.fxml")));
 			EditPollController editPollController = loader.getController();
 			//editPollController.setPolls(polls);
-			editPollController.refresh(primaryStage);
+			editPollController.refresh();
 			loader = new FXMLLoader();
 			System.out.println("hit here");
 			Tab visualizeView = new Tab("Visualize", loader.load(new FileInputStream("src/view/VisualizePollView.fxml")));
 			VisualizePollController visualizePollController = loader.getController();
-			//visualizePollController.setPolls(polls);
+			
+			visualizePollController.setPolls(polls);
+			
+			System.out.println("before start");
+			
+			visualizePollController.start();
+			
 			System.out.println("REACHED");
 			TabPane root = new TabPane(editView, visualizeView);
 			System.out.println("REACHED1");
@@ -73,8 +79,10 @@ public class PollTrackerApp extends Application {
 			primaryStage.show();
 
 		} catch (FileNotFoundException e) {
+			System.out.println("File error");
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.out.println("IO error");
 			e.printStackTrace();
 		}
 		
