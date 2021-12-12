@@ -134,6 +134,7 @@ public class EditPollController {
     	}
     	// update the dropdown options to now include the new change
     	partyDropdown.setItems(FXCollections.observableArrayList(newPartyInfo));
+    	visualizer.start();
     }
 
     
