@@ -1,13 +1,15 @@
 package application;
 
 import model.*;
+
+import java.util.ArrayList;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ChoiceBox;
-import model.Factory;
 
 /**
  * The Controller class which visualizes a specified Poll from a PollList
@@ -40,51 +42,45 @@ public class VisualizePollController {
      */
     @FXML
     void start() {
-    	System.out.println("inside VPC");
-    	
-    	//set the default selected option to "Aggregate Poll" and Display the Aggregate Poll on the PieCharts by default using the chartCreationHelper method.
+    	//set the default selected option to "Aggregate Poll" and display the Aggregate Poll on the PieCharts by default using the chartCreationHelper method.
     	vizChoice.setValue("Aggregate Poll");
-    	
-    	System.out.println(polls.toString());
-    	
     	String[] names = new String[polls.toArray()[0].getNumberOfParties()];
     	    	
-    	for(int i = 0; i < polls.toArray()[0].getNumberOfParties(); i++)
+    	for(int i = 0; i < polls.toArray()[0].getNumberOfParties(); i++) {
     		names[i] = polls.toArray()[0].getParties()[i].getName();
-    	
-    	System.out.println("----------------");
-    	System.out.println("names");
-    	for (String n : names) System.out.println(n);
-    	System.out.println(polls.toString());
+    	}
     	    	
     	Poll aggregate = polls.getAggregatePoll(names);
-    	
-    	
-    	System.out.println(aggregate.toString());
     	
 		chartCreationHelper(aggregate);
 		//Create the String array of Poll names to be options in the choice box, with the first being the Aggregate Poll
     	String[] visualizationOptions = new String[polls.toArray().length + 1];
     	visualizationOptions[0] = "Aggregate Poll";
-    	for(int i = 1; i <= polls.toArray().length; i++) 
+    	
+    	for(int i = 1; i <= polls.toArray().length; i++) {
     		//add the names of each Poll in the polls PollList to the String array
     		visualizationOptions[i] = polls.toArray()[i-1].getPollName();
+    	}
+
     	//set the visualizations String array as the options for the choice box
     	vizChoice.setItems(FXCollections.observableArrayList(visualizationOptions));
+    	
     	//check for when choice box selected option is changed
     	vizChoice.getSelectionModel().selectedIndexProperty().addListener(
     		new ChangeListener<Number>() {
-    		@Override
-    		public void changed(ObservableValue observable, Number oldValue, Number newValue) {
-    			int index = newValue.intValue();
-    			//change chart data to the selected option in the choice box using chartCreationHelper method to display the data on the PieCharts
-    			if(index > 0) {
-    				Poll pollToChart = polls.toArray()[index - 1];
-    				chartCreationHelper(pollToChart);
-    			}
-    			else if(index == 0);
-    				chartCreationHelper(aggregate);
-    		}
+	    		@Override
+	    		public void changed(ObservableValue observable, Number oldValue, Number newValue) {
+	    			int index = newValue.intValue();
+	    			
+	    			//change chart data to the selected option in the choice box using chartCreationHelper method to display the data on the PieCharts
+	    			if(index > 0) {
+	    				Poll pollToChart = polls.toArray()[index - 1];
+	    				chartCreationHelper(pollToChart);
+	    			}
+	    			else if (index == 0) {
+	    				chartCreationHelper(aggregate);
+	    			}
+	    		}
     		}
     	);
     }
@@ -102,34 +98,47 @@ public class VisualizePollController {
     	//Create PieChart data arrays for the Seats and percent Votes PieCharts
     	PieChart.Data[] seatData = new PieChart.Data[aPoll.getNumberOfParties()];
 		PieChart.Data[] votesData = new PieChart.Data[aPoll.getNumberOfParties()];
+		
 		for(int i = 0; i < seatData.length; i++) {
 			//Create and input the data into the PieChart data array with the Party name and number of seats/votes for each party
 			Party aParty = aPoll.getParties()[i];
 			seatData[i] = new PieChart.Data(aParty.getName() + " (" + aParty.getProjectedNumberOfSeats() + ")", aParty.getProjectedNumberOfSeats());
 			votesData[i] = new PieChart.Data(aParty.getName() + " (" + Math.round(aParty.getProjectedPercentageOfVotes() *1000.0)/10.0 + ")", aParty.getProjectedPercentageOfVotes());
 		}
+		
 		//set the PieCharts to display the data in the PieChart data arrays
 		seatsChart.setData(FXCollections.observableArrayList(seatData));
 		votesChart.setData(FXCollections.observableArrayList(votesData));
+		
 		//make the legend invisible
 		seatsChart.setLegendVisible(false);
 		votesChart.setLegendVisible(false);
-		//Set the colour of the PieChart data node to the required party colour
 		
-		System.out.println("in chart helper");
-    	System.out.println(aPoll.toString());
+		//Set the colour of the PieChart data node to the required party colour
 		
 		for(int i = 0; i < seatData.length; i++) {
 			//get the party colour and change it to HTML form
 			String colorToUse = aPoll.getParties()[i].getPartyColour().toString();
 			colorToUse = colorToUse.replace("0x", "#");
+			
 			//set the colour of the data node to the required colour
 			seatData[i].getNode().setStyle("-fx-pie-color: " + colorToUse + ";");
 			votesData[i].getNode().setStyle("-fx-pie-color: " + colorToUse + ";");
 		}
     }
     
+    /** setPolls method
+     * Used to set polls instance variable to the one passed by app*/
     public void setPolls(PollList polls) {
     	this.polls = polls;
     }
+    
+    
+    /** updatePollNames method
+     * Updates the list of poll names in vizChoice after they've been edited 
+     * @param newPollNames*/
+	public void updatePollNames(ArrayList<String> newPollNames) {
+		vizChoice.setItems(FXCollections.observableArrayList(newPollNames));
+		start();
+	}
 }
