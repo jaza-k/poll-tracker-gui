@@ -34,7 +34,7 @@ public class VisualizePollController {
      * Used to add choices to the choice box created in scene builder, and change PieChart display
      * 
      * Precondition: none
-     * Postcondition: All the polls names in the randomly created PollList are added
+     * Postcondition: All the polls names in the <code>polls</code> instance variable are added
      * to the options in the choice box, along with the aggregate Poll for that PollList.
      * PieCharts will visualize the data for the selected Poll in the choice box by seats and by votes.
      * the choice box will select aggregate by default, and the PieCharts will display the aggregate
@@ -44,12 +44,11 @@ public class VisualizePollController {
     void start() {
     	//set the default selected option to "Aggregate Poll" and display the Aggregate Poll on the PieCharts by default using the chartCreationHelper method.
     	vizChoice.setValue("Aggregate Poll");
+    	//create the name String array for the aggregate poll
     	String[] names = new String[polls.toArray()[0].getNumberOfParties()];
-    	    	
     	for(int i = 0; i < polls.toArray()[0].getNumberOfParties(); i++) {
     		names[i] = polls.toArray()[0].getParties()[i].getName();
     	}
-    	    	
     	Poll aggregate = polls.getAggregatePoll(names);
     	
 		chartCreationHelper(aggregate);
@@ -128,15 +127,24 @@ public class VisualizePollController {
     }
     
     /** setPolls method
-     * Used to set polls instance variable to the one passed by app*/
+     * Used to set polls instance variable to the one passed by app
+     * Precondition: polls parameter must be of type PollList
+     * Postcondition: polls instance variable is set to the parameter passed
+     * 
+     * @param polls The PollList that the <code>polls</code> instance variable will be set to
+     */
     public void setPolls(PollList polls) {
     	this.polls = polls;
     }
     
     
     /** updatePollNames method
-     * Updates the list of poll names in vizChoice after they've been edited 
-     * @param newPollNames*/
+     * Updates the list of poll names in vizChoice after they've been edited
+     * Precondition: newPollNames must be a string ArrayList
+     * Postcondition: Options in the choicebox will be set to the names in the ArrayList
+     * 
+     * @param newPollNames ArrayList of the poll names to set the choicebox options to
+     */
 	public void updatePollNames(ArrayList<String> newPollNames) {
 		vizChoice.setItems(FXCollections.observableArrayList(newPollNames));
 		start();
